@@ -2,10 +2,11 @@ import { Component, OnInit, signal } from '@angular/core';
 import { AuthUser } from '../../core/auth/auth.model';
 import { AuthService } from '../../core/auth/auth.service';
 import { Router } from '@angular/router';
+import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [],
+  imports: [SidebarComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })

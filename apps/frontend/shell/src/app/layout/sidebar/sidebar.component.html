@@ -1,0 +1,38 @@
+<aside class="workspace-sidebar">
+  <div class="sidebar-brand">
+    <div class="sidebar-brand__mark" aria-hidden="true"></div>
+    <div>
+      <p class="sidebar-brand__title">Synko</p>
+      <p class="sidebar-brand__subtitle">AI Workspace</p>
+    </div>
+  </div>
+
+  @if (user; as currentUser) {
+    <section class="sidebar-profile">
+      <p class="sidebar-profile__name">{{ currentUser.name }}</p>
+      <p class="sidebar-profile__email">{{ currentUser.email }}</p>
+      <span class="sidebar-profile__role">{{ currentUser.roles?.[0] || 'User' }}</span>
+    </section>
+  }
+
+  <nav class="sidebar-nav" aria-label="Primary navigation">
+    <button class="sidebar-nav__item sidebar-nav__item--active" type="button">
+      <span class="sidebar-nav__dot" aria-hidden="true"></span>
+      Overview
+    </button>
+    <button class="sidebar-nav__item" type="button">
+      <span class="sidebar-nav__dot" aria-hidden="true"></span>
+      Knowledge
+    </button>
+    <button class="sidebar-nav__item" type="button">
+      <span class="sidebar-nav__dot" aria-hidden="true"></span>
+      Collections
+    </button>
+    <button class="sidebar-nav__item" type="button">
+      <span class="sidebar-nav__dot" aria-hidden="true"></span>
+      Settings
+    </button>
+  </nav>
+
+  <button class="sidebar-signout" type="button" (click)="onSignOut()">Sign out</button>
+</aside>

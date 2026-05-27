@@ -1,77 +1,77 @@
-<div class="dashboard-page">
-	<header class="dashboard-header">
-		<div>
-			<p class="dashboard-header__eyebrow">Workspace overview</p>
-			<h1 class="dashboard-header__title">Synko dashboard</h1>
-			<p class="dashboard-header__subtitle">
-				Centralized visibility for your account, permissions and next actions.
-			</p>
-		</div>
+<div class="workspace-shell">
+	<app-sidebar [user]="user()" (signOut)="logout()"></app-sidebar>
 
-		<button class="dashboard-header__action" type="button" (click)="logout()">
-			Sign out
-		</button>
-	</header>
-
-	@if (user(); as currentUser) {
-		<section class="dashboard-grid">
-			<article class="dashboard-panel dashboard-panel--hero">
-				<div class="dashboard-panel__meta">Current session</div>
-				<h2 class="dashboard-panel__title">Welcome, {{ currentUser.name }}</h2>
-				<p class="dashboard-panel__text">
-					Your account is active and connected to the main Synko workspace.
+	<main class="workspace-main">
+		<header class="dashboard-header">
+			<div>
+				<p class="dashboard-header__eyebrow">Workspace overview</p>
+				<h1 class="dashboard-header__title">Synko dashboard</h1>
+				<p class="dashboard-header__subtitle">
+					Track your account context, environment status and next implementation steps.
 				</p>
+			</div>
+		</header>
 
-				<dl class="dashboard-details">
-					<div class="dashboard-details__item">
-						<dt>Professional email</dt>
-						<dd>{{ currentUser.email }}</dd>
-					</div>
+		@if (user(); as currentUser) {
+			<section class="dashboard-grid">
+				<article class="dashboard-panel dashboard-panel--hero">
+					<div class="dashboard-panel__meta">Current session</div>
+					<h2 class="dashboard-panel__title">Welcome, {{ currentUser.name }}</h2>
+					<p class="dashboard-panel__text">
+						Your account is active and connected to the main Synko workspace.
+					</p>
 
-					<div class="dashboard-details__item">
-						<dt>Primary role</dt>
-						<dd>{{ currentUser.roles?.[0] || 'User' }}</dd>
-					</div>
+					<dl class="dashboard-details">
+						<div class="dashboard-details__item">
+							<dt>Professional email</dt>
+							<dd>{{ currentUser.email }}</dd>
+						</div>
 
-					<div class="dashboard-details__item">
-						<dt>Access level</dt>
-						<dd>{{ currentUser.roles?.length ? currentUser.roles?.join(' · ') : 'Standard access' }}</dd>
-					</div>
-				</dl>
-			</article>
+						<div class="dashboard-details__item">
+							<dt>Primary role</dt>
+							<dd>{{ currentUser.roles?.[0] || 'User' }}</dd>
+						</div>
 
-			<article class="dashboard-panel">
-				<div class="dashboard-panel__meta">Operational status</div>
-				<h2 class="dashboard-panel__title">Environment ready</h2>
-				<p class="dashboard-panel__text">
-					Authentication is configured and your frontend shell is connected to the protected area.
-				</p>
+						<div class="dashboard-details__item">
+							<dt>Access level</dt>
+							<dd>{{ currentUser.roles?.length ? currentUser.roles?.join(' · ') : 'Standard access' }}</dd>
+						</div>
+					</dl>
+				</article>
 
-				<ul class="dashboard-list">
-					<li>Authenticated session detected</li>
-					<li>User context loaded from the API</li>
-					<li>Base design system applied consistently</li>
-				</ul>
-			</article>
+				<article class="dashboard-panel">
+					<div class="dashboard-panel__meta">Operational status</div>
+					<h2 class="dashboard-panel__title">Environment ready</h2>
+					<p class="dashboard-panel__text">
+						Authentication is configured and your frontend shell is connected to the protected area.
+					</p>
 
-			<article class="dashboard-panel">
-				<div class="dashboard-panel__meta">Next steps</div>
-				<h2 class="dashboard-panel__title">Suggested build-out</h2>
-				<p class="dashboard-panel__text">
-					This space is ready to host your application modules without rehacer la base visual.
-				</p>
+					<ul class="dashboard-list">
+						<li>Authenticated session detected</li>
+						<li>User context loaded from the API</li>
+						<li>Design tokens applied to the full shell</li>
+					</ul>
+				</article>
 
-				<ul class="dashboard-list">
-					<li>Activity timeline or recent events</li>
-					<li>Knowledge base or document ingestion</li>
-					<li>Administrative controls by role</li>
-				</ul>
-			</article>
-		</section>
-	} @else {
-		<section class="dashboard-empty">
-			<div class="dashboard-empty__spinner" aria-hidden="true"></div>
-			<p class="dashboard-empty__text">Loading your workspace...</p>
-		</section>
-	}
+				<article class="dashboard-panel">
+					<div class="dashboard-panel__meta">Next steps</div>
+					<h2 class="dashboard-panel__title">Suggested build-out</h2>
+					<p class="dashboard-panel__text">
+						This shell is now ready to host your app modules with a consistent visual identity.
+					</p>
+
+					<ul class="dashboard-list">
+						<li>Activity timeline and notifications</li>
+						<li>Knowledge ingestion and semantic search</li>
+						<li>Role-based administration controls</li>
+					</ul>
+				</article>
+			</section>
+		} @else {
+			<section class="dashboard-empty">
+				<div class="dashboard-empty__spinner" aria-hidden="true"></div>
+				<p class="dashboard-empty__text">Loading your workspace...</p>
+			</section>
+		}
+	</main>
 </div>
