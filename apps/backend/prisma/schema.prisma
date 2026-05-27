@@ -1,0 +1,142 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserStatus {
+  active
+  disabled
+  pending_verification
+}
+
+enum DocumentStatus {
+  uploaded
+  processing
+  processed
+  failed
+  deleted
+}
+
+enum ChatMessageRole {
+  user
+  assistant
+  system
+}
+
+model User {
+  id           String        @id @default(uuid()) @db.Uuid
+  email        String        @unique
+  passwordHash String        @map("password_hash")
+  name         String
+  status       UserStatus    @default(active)
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+
+  roles        UserRole[]
+  documents    Document[]
+  chunks       DocumentChunk[]
+  chatSessions ChatSession[]
+  chatMessages ChatMessage[]
+
+  @@map("users")
+}
+
+model Role {
+  id          String     @id @default(uuid()) @db.Uuid
+  name        String     @unique
+  description String?
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+
+  users       UserRole[]
+
+  @@map("roles")
+}
+
+model UserRole {
+  userId    String   @map("user_id") @db.Uuid
+  roleId    String   @map("role_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+  @@map("user_roles")
+}
+
+model Document {
+  id           String          @id @default(uuid()) @db.Uuid
+  userId       String          @map("user_id") @db.Uuid
+  originalName String          @map("original_name")
+  storedName   String          @map("stored_name")
+  mimeType     String          @map("mime_type")
+  sizeBytes    BigInt          @map("size_bytes")
+  storagePath  String          @map("storage_path")
+  status       DocumentStatus  @default(uploaded)
+  errorMessage String?         @map("error_message")
+  createdAt    DateTime        @default(now()) @map("created_at")
+  updatedAt    DateTime        @updatedAt @map("updated_at")
+  processedAt  DateTime?       @map("processed_at")
+
+  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chunks       DocumentChunk[]
+
+  @@index([userId])
+  @@index([status])
+  @@map("documents")
+}
+
+model DocumentChunk {
+  id            String   @id @default(uuid()) @db.Uuid
+  documentId    String   @map("document_id") @db.Uuid
+  userId        String   @map("user_id") @db.Uuid
+  chunkIndex    Int      @map("chunk_index")
+  content       String
+  pageNumber    Int?     @map("page_number")
+  tokenCount    Int?     @map("token_count")
+  qdrantPointId String?  @map("qdrant_point_id") @db.Uuid
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  document      Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([documentId])
+  @@index([userId])
+  @@index([qdrantPointId])
+  @@map("document_chunks")
+}
+
+model ChatSession {
+  id        String        @id @default(uuid()) @db.Uuid
+  userId    String        @map("user_id") @db.Uuid
+  title     String?
+  createdAt DateTime      @default(now()) @map("created_at")
+  updatedAt DateTime      @updatedAt @map("updated_at")
+
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages  ChatMessage[]
+
+  @@index([userId])
+  @@map("chat_sessions")
+}
+
+model ChatMessage {
+  id        String          @id @default(uuid()) @db.Uuid
+  sessionId String          @map("session_id") @db.Uuid
+  userId    String          @map("user_id") @db.Uuid
+  role      ChatMessageRole
+  content   String
+  sources   Json?
+  createdAt DateTime        @default(now()) @map("created_at")
+
+  session   ChatSession     @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
+  @@index([userId])
+  @@map("chat_messages")
+}
