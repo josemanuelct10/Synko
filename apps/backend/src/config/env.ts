@@ -1,5 +1,6 @@
 import path from "node:path";
 import dotenv from "dotenv";
+import type { StringValue } from "ms";
 import { z } from "zod";
 
 dotenv.config({
@@ -16,7 +17,11 @@ const envSchema = z.object({
   FRONTEND_URL: z.string().url().default("http://localhost:4200"),
 
   JWT_SECRET: z.string().min(1, "JWT_SECRET is required"),
-  JWT_EXPIRES_IN: z.string().default("1h"),
+  JWT_EXPIRES_IN: z
+    .custom<StringValue>((value) => typeof value === "string" && value.length > 0, {
+      message: "JWT_EXPIRES_IN must be a valid ms duration string"
+    })
+    .default("1h"),
   SALT_ROUNDS: z.coerce.number().default(10),
 
   POSTGRES_HOST: z.string().default("localhost"),

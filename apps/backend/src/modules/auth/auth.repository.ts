@@ -7,6 +7,19 @@ export const authRepository = {
         });
     },
 
+    findUserWithRolesByEmail(email: string) {
+        return prisma.user.findUnique({
+            where: { email },
+            include: {
+                roles: {
+                    include: {
+                        role: true
+                    }
+                }
+            } 
+        });
+    },
+
     findRoleByName(name: string) {
         return prisma.role.findUnique({
             where: { name }
@@ -31,5 +44,7 @@ export const authRepository = {
                 email: true
             }
         })
-    }
+    },
+
+
 }
