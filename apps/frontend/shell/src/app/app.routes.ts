@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/login/login.component';
 import { RegisterComponent } from './features/auth/register/register.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
-import { authInterceptor } from './core/auth/auth.guard';
+import { authGuard } from './core/auth/auth.guard';
 
 export const routes: Routes = [
     {
@@ -21,7 +21,7 @@ export const routes: Routes = [
     {
         path: 'dashboard',
         component: DashboardComponent,
-        canActivate: [authInterceptor]
+        canActivate: [authGuard]
     },
     {
         path: '**',

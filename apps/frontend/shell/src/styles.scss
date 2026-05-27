@@ -5,29 +5,31 @@
 /* --- Color Tokens ----------------------------------------- */
 :root {
   /* Background */
-  --color-bg-base:       #0F1117;
-  --color-bg-surface:    #1A1D27;
-  --color-bg-elevated:   #222639;
+  --color-bg-base:       #080B12;
+  --color-bg-surface:    #111827;
+  --color-bg-elevated:   #1E293B;
 
   /* Border */
-  --color-border:        #2D3244;
-  --color-border-focus:  #4F7FFA;
+  --color-border:        #334155;
+  --color-border-focus:  #22D3EE;
 
   /* Primary */
-  --color-primary:       #4F7FFA;
-  --color-primary-hover: #3D6BF0;
-  --color-primary-muted: rgba(79, 127, 250, 0.12);
+  --color-primary:       #22D3EE;
+  --color-primary-hover: #06B6D4;
+  --color-primary-muted: rgba(34, 211, 238, 0.16);
+  --color-secondary:     #8B5CF6;
+  --color-accent:        #10B981;
 
   /* Text */
-  --color-text-primary:  #E2E8F0;
-  --color-text-secondary:#8892A4;
-  --color-text-disabled: #4A5168;
+  --color-text-primary:  #F8FAFC;
+  --color-text-secondary:#94A3B8;
+  --color-text-disabled: #64748B;
 
   /* Semantic */
-  --color-error:         #F87171;
-  --color-error-muted:   rgba(248, 113, 113, 0.10);
-  --color-success:       #4ADE80;
-  --color-warning:       #FBBF24;
+  --color-error:         #EF4444;
+  --color-error-muted:   rgba(239, 68, 68, 0.10);
+  --color-success:       #10B981;
+  --color-warning:       #F59E0B;
 
   /* Typography */
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -58,7 +60,7 @@
   --radius-lg: 12px;
 
   /* Shadows */
-  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 18px 40px rgba(2, 8, 23, 0.42);
 
   /* Transitions */
   --transition-fast:   150ms ease;

@@ -1,19 +1,15 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
 
 import { AUTH_TOKEN_KEY } from './auth.config';
 
-export const authInterceptor: HttpInterceptorFn = (req, next) => {
+export const authGuard: CanActivateFn = () => {
+  const router = inject(Router);
   const token = sessionStorage.getItem(AUTH_TOKEN_KEY);
 
-  if (!token) {
-    return next(req);
+  if (token) {
+    return true;
   }
 
-  const authenticatedRequest = req.clone({
-    setHeaders: {
-      Authorization: `Bearer ${token}`
-    }
-  });
-
-  return next(authenticatedRequest);
+  return router.createUrlTree(['/login']);
 };

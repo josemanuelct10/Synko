@@ -2,7 +2,7 @@
 
 ## Philosophy
 
-Synko's UI follows a **professional, neutral-dark** aesthetic. The goal is clarity and focus, not decoration. Rules:
+Synko's UI follows a **modern, high-contrast dark** aesthetic. The goal is clarity, presence and a stronger visual identity without falling into noisy effects. Rules:
 
 - No gradients on interactive elements
 - No drop-shadow stacking or heavy visual noise
@@ -17,21 +17,23 @@ All colors are defined as CSS custom properties in `styles.scss` and used projec
 
 | Token | Value | Usage |
 |---|---|---|
-| `--color-bg-base` | `#0F1117` | Page background |
-| `--color-bg-surface` | `#1A1D27` | Cards, panels |
-| `--color-bg-elevated` | `#222639` | Dropdowns, tooltips |
-| `--color-border` | `#2D3244` | Default borders |
-| `--color-border-focus` | `#4F7FFA` | Input focus ring |
-| `--color-primary` | `#4F7FFA` | Buttons, links, accents |
-| `--color-primary-hover` | `#3D6BF0` | Primary hover state |
-| `--color-primary-muted` | `rgba(79,127,250,.12)` | Focus rings, backgrounds |
-| `--color-text-primary` | `#E2E8F0` | Body copy, headings |
-| `--color-text-secondary` | `#8892A4` | Labels, captions, hints |
-| `--color-text-disabled` | `#4A5168` | Disabled states, placeholders |
-| `--color-error` | `#F87171` | Errors and destructive states |
-| `--color-error-muted` | `rgba(248,113,113,.10)` | Error banners background |
-| `--color-success` | `#4ADE80` | Success indicators |
-| `--color-warning` | `#FBBF24` | Warnings |
+| `--color-bg-base` | `#080B12` | Page background |
+| `--color-bg-surface` | `#111827` | Cards, panels |
+| `--color-bg-elevated` | `#1E293B` | Elevated surfaces and highlighted sections |
+| `--color-border` | `#334155` | Default borders |
+| `--color-border-focus` | `#22D3EE` | Input focus ring |
+| `--color-primary` | `#22D3EE` | Buttons, links, main accents |
+| `--color-primary-hover` | `#06B6D4` | Primary hover state |
+| `--color-primary-muted` | `rgba(34,211,238,.16)` | Focus rings, soft accent backgrounds |
+| `--color-secondary` | `#8B5CF6` | Secondary accents and AI-related highlights |
+| `--color-accent` | `#10B981` | Positive accent, success-related emphasis |
+| `--color-text-primary` | `#F8FAFC` | Body copy, headings |
+| `--color-text-secondary` | `#94A3B8` | Labels, captions, hints |
+| `--color-text-disabled` | `#64748B` | Disabled states, placeholders |
+| `--color-error` | `#EF4444` | Errors and destructive states |
+| `--color-error-muted` | `rgba(239,68,68,.10)` | Error banners background |
+| `--color-success` | `#10B981` | Success indicators |
+| `--color-warning` | `#F59E0B` | Warnings |
 
 ---
 
@@ -86,7 +88,7 @@ Based on a `0.25rem` (4px) grid.
 
 | Token | Value |
 |---|---|
-| `--shadow-card` | `0 4px 24px rgba(0,0,0,.4)` |
+| `--shadow-card` | `0 18px 40px rgba(2,8,23,.42)` |
 
 ---
 
