@@ -1,0 +1,18 @@
+<div class="language-switcher" role="group" [attr.aria-label]="'common.chooseLanguage' | t">
+  <button
+    class="language-switcher__button"
+    type="button"
+    [class.language-switcher__button--active]="i18n.locale() === 'es'"
+    (click)="setLocale('es')"
+  >
+    ES
+  </button>
+  <button
+    class="language-switcher__button"
+    type="button"
+    [class.language-switcher__button--active]="i18n.locale() === 'en'"
+    (click)="setLocale('en')"
+  >
+    EN
+  </button>
+</div>

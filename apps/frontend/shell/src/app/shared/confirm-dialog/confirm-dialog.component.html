@@ -1,0 +1,23 @@
+@if (confirmDialog.state(); as dialog) {
+  <div class="confirm-dialog-backdrop" (click)="confirmDialog.cancel()">
+    <section class="confirm-dialog" (click)="$event.stopPropagation()" role="dialog" aria-modal="true" [attr.aria-labelledby]="'confirm-dialog-title'">
+      <p class="confirm-dialog__eyebrow">{{ 'common.confirmation' | t }}</p>
+      <h2 class="confirm-dialog__title" id="confirm-dialog-title">{{ dialog.title }}</h2>
+      <p class="confirm-dialog__message">{{ dialog.message }}</p>
+
+      <div class="confirm-dialog__actions">
+        <button class="confirm-dialog__button confirm-dialog__button--secondary" type="button" (click)="confirmDialog.cancel()">
+          {{ dialog.cancelLabel }}
+        </button>
+        <button
+          class="confirm-dialog__button"
+          [class.confirm-dialog__button--danger]="dialog.tone === 'danger'"
+          type="button"
+          (click)="confirmDialog.confirm()"
+        >
+          {{ dialog.confirmLabel }}
+        </button>
+      </div>
+    </section>
+  </div>
+}

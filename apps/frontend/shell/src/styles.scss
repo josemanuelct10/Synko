@@ -1,3 +1,5 @@
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
 /* ============================================================
    SYNKO — Global Design Tokens & Base Styles
    ============================================================ */
@@ -5,25 +7,29 @@
 /* --- Color Tokens ----------------------------------------- */
 :root {
   /* Background */
-  --color-bg-base:       #080B12;
-  --color-bg-surface:    #111827;
-  --color-bg-elevated:   #1E293B;
+  --color-bg-base:       #131416;
+  --color-bg-surface:    #1B1D20;
+  --color-bg-elevated:   #24272B;
+  --color-bg-strong:     #2D3136;
+  --color-bg-input:      #17191C;
 
   /* Border */
-  --color-border:        #334155;
-  --color-border-focus:  #22D3EE;
+  --color-border:        #373D45;
+  --color-border-strong: #4D5560;
+  --color-border-focus:  #D2B186;
 
   /* Primary */
-  --color-primary:       #22D3EE;
-  --color-primary-hover: #06B6D4;
-  --color-primary-muted: rgba(34, 211, 238, 0.16);
-  --color-secondary:     #8B5CF6;
-  --color-accent:        #10B981;
+  --color-primary:       #C2AA86;
+  --color-primary-hover: #B19670;
+  --color-primary-muted: rgba(194, 170, 134, 0.2);
+  --color-secondary:     #9FB1C7;
+  --color-accent:        #86A188;
+  --color-text-on-primary:#1F1A14;
 
   /* Text */
-  --color-text-primary:  #F8FAFC;
-  --color-text-secondary:#94A3B8;
-  --color-text-disabled: #64748B;
+  --color-text-primary:  #ECE5DB;
+  --color-text-secondary:#B7ADA0;
+  --color-text-disabled: #8C8378;
 
   /* Semantic */
   --color-error:         #EF4444;
@@ -58,13 +64,41 @@
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
+  --radius-xl: 24px;
 
   /* Shadows */
-  --shadow-card: 0 18px 40px rgba(2, 8, 23, 0.42);
+  --shadow-card: 0 10px 24px rgba(0, 0, 0, 0.22);
+  --shadow-glow: none;
+  --blur-surface: 0;
 
   /* Transitions */
   --transition-fast:   150ms ease;
   --transition-normal: 200ms ease;
+}
+
+:root[data-theme='light'] {
+  --color-bg-base:        #F3EEE7;
+  --color-bg-surface:     #FFFAF4;
+  --color-bg-elevated:    #EEE4D8;
+  --color-bg-strong:      #E5D8C8;
+  --color-bg-input:       #FFFFFF;
+
+  --color-border:         #D7C9B8;
+  --color-border-strong:  #C9B7A1;
+  --color-border-focus:   #7A664A;
+
+  --color-primary:        #8A7152;
+  --color-primary-hover:  #735C42;
+  --color-primary-muted:  rgba(138, 113, 82, 0.14);
+  --color-secondary:      #5E7694;
+  --color-accent:         #6E896D;
+  --color-text-on-primary:#F7F2EA;
+
+  --color-text-primary:   #2D261E;
+  --color-text-secondary: #6B6053;
+  --color-text-disabled:  #9A8E82;
+
+  --shadow-card:          0 10px 24px rgba(65, 52, 39, 0.08);
 }
 
 /* --- Reset & Base ----------------------------------------- */
@@ -82,6 +116,7 @@ body {
 }
 
 body {
+  min-height: 100vh;
   background-color: var(--color-bg-base);
   color: var(--color-text-primary);
   font-family: var(--font-sans);
@@ -89,6 +124,11 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: rgba(47, 93, 80, 0.22);
+  color: var(--color-text-primary);
 }
 
 /* --- Utility: visually hidden (accesibilidad) ------------- */

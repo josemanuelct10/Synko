@@ -1,0 +1,186 @@
+<div class="workspace-shell">
+	<app-sidebar [user]="user()" (signOut)="logout()"></app-sidebar>
+
+	<main class="workspace-main">
+		<section class="documents-page">
+			<header class="documents-header">
+				<div>
+					<p class="documents-header__eyebrow">{{ 'documents.eyebrow' | t }}</p>
+					<h1 class="documents-header__title">{{ 'documents.title' | t }}</h1>
+					<p class="documents-header__subtitle">{{ 'documents.subtitle' | t }}</p>
+				</div>
+
+				<div class="documents-header__actions">
+					<app-language-switcher></app-language-switcher>
+
+					<div class="documents-metrics">
+						<article class="documents-metric">
+							<span class="documents-metric__label">{{ 'common.totalFiles' | t }}</span>
+							<strong class="documents-metric__value">{{ documents().length }}</strong>
+						</article>
+						<article class="documents-metric documents-metric--accent">
+							<span class="documents-metric__label">{{ 'common.ready' | t }}</span>
+							<strong class="documents-metric__value">{{ processedDocumentsCount() }}</strong>
+						</article>
+					</div>
+				</div>
+			</header>
+
+			@if (errorMessage()) {
+				<div class="documents-banner documents-banner--error" role="alert">
+					{{ errorMessage() }}
+				</div>
+			}
+
+			@if (successMessage()) {
+				<div class="documents-banner documents-banner--success" role="status">
+					{{ successMessage() }}
+				</div>
+			}
+
+			<section class="documents-grid">
+				<article class="documents-panel documents-panel--upload" [class.documents-panel--uploading]="isUploading()">
+					<div class="documents-panel__meta">{{ 'documents.uploadSource' | t }}</div>
+					<h2 class="documents-panel__title">{{ 'documents.uploadTitle' | t }}</h2>
+					<p class="documents-panel__text">{{ 'documents.uploadText' | t }}</p>
+
+					<div class="upload-dropzone">
+						<input
+							class="upload-dropzone__input"
+							id="documentFile"
+							type="file"
+							accept="application/pdf"
+							(change)="onFileSelected($event)"
+							[disabled]="isUploading()"
+						/>
+						<label
+							class="upload-dropzone__label"
+							[class.upload-dropzone__label--active]="isDragActive()"
+							for="documentFile"
+							(dragenter)="onDragEnter($event)"
+							(dragover)="onDragOver($event)"
+							(dragleave)="onDragLeave($event)"
+							(drop)="onFileDrop($event)"
+						>
+							<span class="upload-dropzone__icon" aria-hidden="true">
+								<i class="fa-solid fa-file-arrow-up"></i>
+							</span>
+							@if (isDragActive()) {
+								<span class="upload-dropzone__title">{{ 'documents.dragActiveTitle' | t }}</span>
+								<span class="upload-dropzone__hint">{{ 'documents.dragActiveHint' | t }}</span>
+							} @else {
+								<span class="upload-dropzone__title">{{ 'documents.choosePdf' | t }}</span>
+								<span class="upload-dropzone__hint">{{ 'documents.choosePdfHint' | t }}</span>
+							}
+						</label>
+					</div>
+
+					<div class="upload-selection">
+						<div>
+							<p class="upload-selection__label">{{ 'documents.selectedFile' | t }}</p>
+							<p class="upload-selection__name">{{ selectedFile()?.name || ('documents.noFileSelected' | t) }}</p>
+						</div>
+
+						<button
+							class="btn-primary"
+							type="button"
+							(click)="uploadSelectedFile()"
+							[disabled]="!selectedFile() || isUploading()"
+						>
+							@if (isUploading()) {
+								<span class="btn-spinner" aria-hidden="true"></span>
+								{{ 'documents.uploading' | t }}
+							} @else {
+								<i class="fa-solid fa-upload" aria-hidden="true"></i>
+								{{ 'documents.uploadButton' | t }}
+							}
+						</button>
+					</div>
+
+					@if (isUploading()) {
+						<div class="upload-live" role="status" aria-live="polite">
+							<div class="upload-live__header">
+								<i class="fa-solid fa-cloud-arrow-up upload-live__icon" aria-hidden="true"></i>
+								<div>
+									<p class="upload-live__title">{{ 'documents.uploadingTitle' | t }}</p>
+									<p class="upload-live__hint">{{ 'documents.uploadingHint' | t }}</p>
+								</div>
+							</div>
+							<div class="upload-live__bar" aria-hidden="true"></div>
+						</div>
+					}
+				</article>
+
+				<article class="documents-panel">
+					<div class="documents-panel__meta">{{ 'documents.collection' | t }}</div>
+					<h2 class="documents-panel__title">{{ 'documents.storedDocuments' | t }}</h2>
+					<p class="documents-panel__text">{{ 'documents.collectionText' | t }}</p>
+
+					@if (isLoading()) {
+						<div class="documents-empty documents-empty--loading">
+							<span class="documents-empty__spinner" aria-hidden="true"></span>
+							<i class="fa-solid fa-spinner documents-empty__icon" aria-hidden="true"></i>
+							<p>{{ 'documents.loadingDocuments' | t }}</p>
+						</div>
+					} @else if (hasDocuments()) {
+						<div class="documents-list">
+							@for (document of documents(); track document.id) {
+								<article class="document-card">
+									<div class="document-card__header">
+										<div>
+											<h3 class="document-card__title">{{ document.originalName }}</h3>
+											<p class="document-card__meta">{{ 'documents.mimeAndSize' | t:{ size: formatSize(document.sizeBytes), type: document.mimeType } }}</p>
+										</div>
+
+										<span
+											class="document-status"
+											[class.document-status--uploaded]="document.status === 'uploaded'"
+											[class.document-status--processing]="document.status === 'processing'"
+											[class.document-status--processed]="document.status === 'processed'"
+											[class.document-status--failed]="document.status === 'failed'"
+											[class.document-status--deleted]="document.status === 'deleted'"
+										>
+											{{ statusKey(document.status) | t }}
+										</span>
+									</div>
+
+									<dl class="document-card__details">
+										<div>
+											<dt>{{ 'common.created' | t }}</dt>
+											<dd>{{ document.createdAt }}</dd>
+										</div>
+										<div>
+											<dt>{{ 'common.lastUpdate' | t }}</dt>
+											<dd>{{ document.updatedAt }}</dd>
+										</div>
+										<div>
+											<dt>{{ 'common.storagePath' | t }}</dt>
+											<dd>{{ document.storagePath }}</dd>
+										</div>
+									</dl>
+
+									@if (document.errorMessage) {
+										<p class="document-card__error">{{ document.errorMessage }}</p>
+									}
+
+									<div class="document-card__actions">
+										<button class="btn-danger" type="button" (click)="deleteDocument(document)">
+											<i class="fa-solid fa-trash-can" aria-hidden="true"></i>
+											{{ 'documents.delete' | t }}
+										</button>
+									</div>
+								</article>
+							}
+						</div>
+					} @else {
+						<div class="documents-empty">
+							<i class="fa-regular fa-folder-open documents-empty__icon" aria-hidden="true"></i>
+							<p class="documents-empty__title">{{ 'documents.noDocumentsTitle' | t }}</p>
+							<p class="documents-empty__text">{{ 'documents.noDocumentsText' | t }}</p>
+						</div>
+					}
+				</article>
+			</section>
+		</section>
+	</main>
+</div>

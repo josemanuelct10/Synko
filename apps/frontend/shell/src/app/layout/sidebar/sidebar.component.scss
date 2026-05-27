@@ -1,10 +1,21 @@
 .workspace-sidebar {
+  position: sticky;
+  top: 0;
+  min-height: 100dvh;
+}
+
+.sidebar-mobile-top {
+  display: none;
+}
+
+.sidebar-panel {
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
   padding: var(--space-6);
   border-right: 1px solid var(--color-border);
-  background-color: var(--color-bg-surface);
+  background: var(--color-bg-surface);
+  min-height: 100dvh;
 }
 
 .sidebar-brand {
@@ -13,17 +24,22 @@
   gap: var(--space-3);
 
   &__mark {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background-color: var(--color-primary);
-    box-shadow: 0 0 0 6px var(--color-primary-muted);
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--color-primary-muted);
+    color: var(--color-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    box-shadow: none;
   }
 
   &__title {
-    font-size: var(--font-size-lg);
+    font-size: 1.35rem;
     font-weight: 700;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.03em;
   }
 
   &__subtitle {
@@ -34,11 +50,39 @@
   }
 }
 
+.sidebar-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+
+  &__close {
+    margin-left: auto;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--color-text-secondary);
+    font: inherit;
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--color-text-primary);
+      background: var(--color-bg-elevated);
+      border-color: var(--color-border-strong);
+    }
+  }
+}
+
 .sidebar-profile {
   padding: var(--space-4);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background-color: var(--color-bg-elevated);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 18px;
+  background: var(--color-bg-elevated);
+  box-shadow: none;
 
   &__name {
     font-size: var(--font-size-sm);
@@ -54,12 +98,12 @@
   &__role {
     display: inline-flex;
     margin-top: var(--space-3);
-    padding: var(--space-1) var(--space-2);
+    padding: 0.35rem 0.7rem;
     border-radius: 999px;
     font-size: var(--font-size-xs);
-    font-weight: 600;
-    color: var(--color-bg-base);
-    background-color: var(--color-primary);
+    font-weight: 700;
+    color: var(--color-text-on-primary);
+    background: var(--color-primary);
   }
 }
 
@@ -73,73 +117,122 @@
     gap: var(--space-3);
     padding: var(--space-3) var(--space-4);
     border: 1px solid transparent;
-    border-radius: var(--radius-md);
+    border-radius: 16px;
     background: transparent;
     color: var(--color-text-secondary);
     font: inherit;
     text-align: left;
     cursor: pointer;
-    transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+    text-decoration: none;
+    transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
 
     &:hover {
       background-color: var(--color-bg-elevated);
       border-color: var(--color-border);
       color: var(--color-text-primary);
+      transform: none;
     }
 
     &--active {
-      background-color: var(--color-primary-muted);
-      border-color: rgba(34, 211, 238, 0.36);
-      color: var(--color-primary);
+      background: var(--color-primary-muted);
+      border-color: var(--color-border-focus);
+      color: var(--color-text-primary);
+      box-shadow: none;
     }
   }
 
-  &__dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: currentColor;
+  &__icon {
+    width: 1rem;
+    text-align: center;
+    color: currentColor;
+    opacity: 0.9;
   }
 }
 
 .sidebar-signout {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
   margin-top: auto;
   padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 16px;
   background-color: transparent;
   color: var(--color-text-primary);
   font: inherit;
   cursor: pointer;
-  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+  transition: border-color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
 
   &:hover {
-    border-color: var(--color-primary);
+    border-color: var(--color-border-strong);
     background-color: var(--color-bg-elevated);
+    transform: none;
   }
 }
 
 @media (max-width: 980px) {
   .workspace-sidebar {
-    border-right: none;
+    position: relative;
+    min-height: auto;
+    z-index: 40;
+  }
+
+  .sidebar-mobile-top {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-6);
     border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg-surface);
+
+    &__toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      background: transparent;
+      color: var(--color-text-primary);
+      cursor: pointer;
+    }
   }
 
-  .sidebar-nav {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .sidebar-panel {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 70;
+    width: min(88vw, 320px);
+    min-height: 100dvh;
+    border-right: 1px solid var(--color-border);
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.35);
+    transform: translateX(-104%);
+    transition: transform var(--transition-normal);
+
+    &--open {
+      transform: translateX(0);
+    }
   }
 
-  .sidebar-signout {
-    margin-top: 0;
+  .sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 65;
+    border: 0;
+    background: rgba(0, 0, 0, 0.42);
+    cursor: pointer;
   }
 }
 
 @media (max-width: 720px) {
-  .workspace-sidebar {
-    padding: var(--space-6);
-  }
-
-  .sidebar-nav {
-    grid-template-columns: 1fr;
+  .sidebar-mobile-top {
+    padding: var(--space-4);
   }
 }

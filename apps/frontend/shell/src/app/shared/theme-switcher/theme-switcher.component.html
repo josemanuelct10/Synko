@@ -1,0 +1,21 @@
+<div class="theme-switcher" role="group" aria-label="Choose color theme">
+  <button
+    class="theme-switcher__button"
+    type="button"
+    [class.theme-switcher__button--active]="theme.mode() === 'light'"
+    (click)="setMode('light')"
+    aria-label="Switch to light theme"
+  >
+    Claro
+  </button>
+
+  <button
+    class="theme-switcher__button"
+    type="button"
+    [class.theme-switcher__button--active]="theme.mode() === 'dark'"
+    (click)="setMode('dark')"
+    aria-label="Switch to dark theme"
+  >
+    Oscuro
+  </button>
+</div>

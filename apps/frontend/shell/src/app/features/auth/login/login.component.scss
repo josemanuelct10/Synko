@@ -8,25 +8,35 @@
   justify-content: center;
   min-height: 100dvh;
   padding: var(--space-6);
-  background-color: var(--color-bg-base);
+  position: relative;
 }
 
 .login-card {
+  position: relative;
   width: 100%;
   max-width: 400px;
-  background-color: var(--color-bg-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-xl);
   padding: var(--space-10) var(--space-8);
   box-shadow: var(--shadow-card);
 
+  &__toolbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-4);
+  }
+
   &__title {
-    font-size: var(--font-size-2xl);
-    font-weight: 600;
+    font-size: clamp(2rem, 3vw, 2.5rem);
+    font-weight: 700;
     color: var(--color-text-primary);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.04em;
     margin-top: var(--space-6);
-    line-height: 1.2;
+    line-height: 1.05;
   }
 
   &__subtitle {
@@ -60,11 +70,29 @@
   align-items: center;
   gap: var(--space-3);
 
+  &__icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    box-shadow: none;
+
+    i {
+      color: var(--color-primary);
+      font-size: 1.2rem;
+    }
+  }
+
   &__name {
-    font-size: var(--font-size-lg);
+    font-size: 1.35rem;
     font-weight: 700;
     color: var(--color-text-primary);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.03em;
   }
 }
 
@@ -75,14 +103,15 @@
   gap: var(--space-2);
   padding: var(--space-3) var(--space-4);
   background-color: var(--color-error-muted);
-  border: 1px solid var(--color-error);
-  border-radius: var(--radius-md);
+  border: 1px solid rgba(239, 68, 68, 0.32);
+  border-radius: 14px;
   color: var(--color-error);
   font-size: var(--font-size-sm);
   margin-bottom: var(--space-6);
 
-  svg {
+  i {
     flex-shrink: 0;
+    color: var(--color-error);
   }
 }
 
@@ -100,30 +129,38 @@
 
   &__label {
     font-size: var(--font-size-sm);
-    font-weight: 500;
+    font-weight: 600;
     color: var(--color-text-secondary);
   }
 
   &__input {
     width: 100%;
-    padding: var(--space-3) var(--space-4);
-    background-color: var(--color-bg-base);
+    padding: 0.95rem 1rem;
+    background-color: var(--color-bg-input);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+    border-radius: 16px;
     color: var(--color-text-primary);
     font-size: var(--font-size-sm);
     font-family: var(--font-sans);
     outline: none;
     transition: border-color var(--transition-fast),
-                box-shadow var(--transition-fast);
+                box-shadow var(--transition-fast),
+                background-color var(--transition-fast),
+                transform var(--transition-fast);
 
     &::placeholder {
       color: var(--color-text-disabled);
     }
 
+    &:hover {
+      border-color: var(--color-border-strong);
+      background-color: var(--color-bg-input);
+    }
+
     &:focus {
       border-color: var(--color-border-focus);
-      box-shadow: 0 0 0 3px var(--color-primary-muted);
+      box-shadow: 0 0 0 4px var(--color-primary-muted);
+      transform: none;
     }
 
     &:disabled {
@@ -140,20 +177,21 @@
   justify-content: center;
   gap: var(--space-2);
   width: 100%;
-  padding: var(--space-3) var(--space-4);
+  padding: 0.95rem 1.1rem;
   margin-top: var(--space-3);
-  background-color: var(--color-primary);
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--color-text-on-primary);
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: 800;
   font-family: var(--font-sans);
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: 16px;
   cursor: pointer;
-  transition: background-color var(--transition-fast);
+  box-shadow: none;
+  transition: background-color var(--transition-fast), opacity var(--transition-fast);
 
   &:hover:not(:disabled) {
-    background-color: var(--color-primary-hover);
+    background: var(--color-primary-hover);
   }
 
   &:disabled {
@@ -167,8 +205,8 @@
   display: inline-block;
   width: 14px;
   height: 14px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #fff;
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  border-top-color: var(--color-text-on-primary);
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
 }

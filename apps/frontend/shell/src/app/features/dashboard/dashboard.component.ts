@@ -3,10 +3,11 @@ import { AuthUser } from '../../core/auth/auth.model';
 import { AuthService } from '../../core/auth/auth.service';
 import { Router } from '@angular/router';
 import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
+import { TranslatePipe } from '../../core/i18n/translate.pipe';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [SidebarComponent],
+  imports: [SidebarComponent, TranslatePipe],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })

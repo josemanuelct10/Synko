@@ -1,0 +1,35 @@
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 999px;
+  background: var(--color-bg-surface);
+
+  &__button {
+    min-width: 42px;
+    padding: 0.4rem 0.7rem;
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--color-text-secondary);
+    font: inherit;
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: background-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+
+    &:hover {
+      color: var(--color-text-primary);
+      transform: none;
+    }
+
+    &--active {
+      background: var(--color-primary-muted);
+      color: var(--color-text-primary);
+      box-shadow: none;
+    }
+  }
+}

@@ -1,28 +1,26 @@
 <div class="login-page">
   <div class="login-card">
+    <div class="login-card__toolbar">
+      <app-theme-switcher></app-theme-switcher>
+      <app-language-switcher></app-language-switcher>
+    </div>
 
     <!-- Brand -->
     <div class="login-brand">
       <div class="login-brand__icon" aria-hidden="true">
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="28" height="28" rx="6" fill="var(--color-primary)"/>
-          <path d="M7 14h5m4 0h5M14 7v5m0 4v5" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-        </svg>
+        <i class="fa-solid fa-shield-halved"></i>
       </div>
       <span class="login-brand__name">Synko</span>
     </div>
 
     <!-- Heading -->
-    <h1 class="login-card__title">Welcome back</h1>
-    <p class="login-card__subtitle">Sign in to continue to your workspace.</p>
+    <h1 class="login-card__title">{{ 'login.title' | t }}</h1>
+    <p class="login-card__subtitle">{{ 'login.subtitle' | t }}</p>
 
     <!-- Error banner -->
     @if (errorMessage()) {
       <div class="login-error" role="alert">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="8" cy="8" r="7" stroke="var(--color-error)" stroke-width="1.5"/>
-          <path d="M8 5v4M8 11v.5" stroke="var(--color-error)" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
+        <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>
         {{ errorMessage() }}
       </div>
     }
@@ -31,14 +29,14 @@
     <form class="login-form" (ngSubmit)="submit()" #loginForm="ngForm" novalidate>
 
       <div class="form-field">
-        <label class="form-field__label" for="email">Email address</label>
+        <label class="form-field__label" for="email">{{ 'login.emailLabel' | t }}</label>
         <input
           class="form-field__input"
           id="email"
           type="email"
           name="email"
           autocomplete="email"
-          placeholder="you@company.com"
+          [placeholder]="'login.emailPlaceholder' | t"
           [(ngModel)]="form.email"
           required
           [disabled]="isSubmitting()"
@@ -46,14 +44,14 @@
       </div>
 
       <div class="form-field">
-        <label class="form-field__label" for="password">Password</label>
+        <label class="form-field__label" for="password">{{ 'login.passwordLabel' | t }}</label>
         <input
           class="form-field__input"
           id="password"
           type="password"
           name="password"
           autocomplete="current-password"
-          placeholder="••••••••"
+          [placeholder]="'login.passwordPlaceholder' | t"
           [(ngModel)]="form.password"
           required
           [disabled]="isSubmitting()"
@@ -67,17 +65,18 @@
       >
         @if (isSubmitting()) {
           <span class="btn-spinner" aria-hidden="true"></span>
-          Signing in…
+          {{ 'login.submitting' | t }}
         } @else {
-          Sign in
+          <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
+          {{ 'login.submit' | t }}
         }
       </button>
 
     </form>
 
     <p class="login-card__footer">
-      Don't have an account?
-      <a routerLink="/register" class="login-card__link">Create one</a>
+      {{ 'login.noAccount' | t }}
+      <a routerLink="/register" class="login-card__link">{{ 'login.createOne' | t }}</a>
     </p>
 
   </div>

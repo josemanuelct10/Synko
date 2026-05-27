@@ -4,73 +4,65 @@
 	<main class="workspace-main">
 		<header class="dashboard-header">
 			<div>
-				<p class="dashboard-header__eyebrow">Workspace overview</p>
-				<h1 class="dashboard-header__title">Synko dashboard</h1>
-				<p class="dashboard-header__subtitle">
-					Track your account context, environment status and next implementation steps.
-				</p>
+				<p class="dashboard-header__eyebrow">{{ 'dashboard.eyebrow' | t }}</p>
+				<h1 class="dashboard-header__title">{{ 'dashboard.title' | t }}</h1>
+				<p class="dashboard-header__subtitle">{{ 'dashboard.subtitle' | t }}</p>
 			</div>
 		</header>
 
 		@if (user(); as currentUser) {
 			<section class="dashboard-grid">
 				<article class="dashboard-panel dashboard-panel--hero">
-					<div class="dashboard-panel__meta">Current session</div>
-					<h2 class="dashboard-panel__title">Welcome, {{ currentUser.name }}</h2>
-					<p class="dashboard-panel__text">
-						Your account is active and connected to the main Synko workspace.
-					</p>
+					<div class="dashboard-panel__meta">{{ 'dashboard.currentSession' | t }}</div>
+					<h2 class="dashboard-panel__title">{{ 'dashboard.welcome' | t:{ name: currentUser.name } }}</h2>
+					<p class="dashboard-panel__text">{{ 'dashboard.sessionText' | t }}</p>
 
 					<dl class="dashboard-details">
 						<div class="dashboard-details__item">
-							<dt>Professional email</dt>
+							<dt>{{ 'common.professionalEmail' | t }}</dt>
 							<dd>{{ currentUser.email }}</dd>
 						</div>
 
 						<div class="dashboard-details__item">
-							<dt>Primary role</dt>
-							<dd>{{ currentUser.roles?.[0] || 'User' }}</dd>
+							<dt>{{ 'common.primaryRole' | t }}</dt>
+							<dd>{{ currentUser.roles?.[0] || ('common.userFallback' | t) }}</dd>
 						</div>
 
 						<div class="dashboard-details__item">
-							<dt>Access level</dt>
-							<dd>{{ currentUser.roles?.length ? currentUser.roles?.join(' · ') : 'Standard access' }}</dd>
+							<dt>{{ 'common.accessLevel' | t }}</dt>
+							<dd>{{ currentUser.roles?.length ? currentUser.roles?.join(' · ') : ('common.standardAccess' | t) }}</dd>
 						</div>
 					</dl>
 				</article>
 
 				<article class="dashboard-panel">
-					<div class="dashboard-panel__meta">Operational status</div>
-					<h2 class="dashboard-panel__title">Environment ready</h2>
-					<p class="dashboard-panel__text">
-						Authentication is configured and your frontend shell is connected to the protected area.
-					</p>
+					<div class="dashboard-panel__meta">{{ 'dashboard.operationalStatus' | t }}</div>
+					<h2 class="dashboard-panel__title">{{ 'dashboard.environmentReady' | t }}</h2>
+					<p class="dashboard-panel__text">{{ 'dashboard.environmentText' | t }}</p>
 
 					<ul class="dashboard-list">
-						<li>Authenticated session detected</li>
-						<li>User context loaded from the API</li>
-						<li>Design tokens applied to the full shell</li>
+						<li>{{ 'dashboard.statusItem1' | t }}</li>
+						<li>{{ 'dashboard.statusItem2' | t }}</li>
+						<li>{{ 'dashboard.statusItem3' | t }}</li>
 					</ul>
 				</article>
 
 				<article class="dashboard-panel">
-					<div class="dashboard-panel__meta">Next steps</div>
-					<h2 class="dashboard-panel__title">Suggested build-out</h2>
-					<p class="dashboard-panel__text">
-						This shell is now ready to host your app modules with a consistent visual identity.
-					</p>
+					<div class="dashboard-panel__meta">{{ 'dashboard.nextSteps' | t }}</div>
+					<h2 class="dashboard-panel__title">{{ 'dashboard.suggestedBuildOut' | t }}</h2>
+					<p class="dashboard-panel__text">{{ 'dashboard.nextStepsText' | t }}</p>
 
 					<ul class="dashboard-list">
-						<li>Activity timeline and notifications</li>
-						<li>Knowledge ingestion and semantic search</li>
-						<li>Role-based administration controls</li>
+						<li>{{ 'dashboard.nextItem1' | t }}</li>
+						<li>{{ 'dashboard.nextItem2' | t }}</li>
+						<li>{{ 'dashboard.nextItem3' | t }}</li>
 					</ul>
 				</article>
 			</section>
 		} @else {
 			<section class="dashboard-empty">
 				<div class="dashboard-empty__spinner" aria-hidden="true"></div>
-				<p class="dashboard-empty__text">Loading your workspace...</p>
+				<p class="dashboard-empty__text">{{ 'dashboard.loading' | t }}</p>
 			</section>
 		}
 	</main>

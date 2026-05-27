@@ -1,38 +1,101 @@
 <aside class="workspace-sidebar">
-  <div class="sidebar-brand">
-    <div class="sidebar-brand__mark" aria-hidden="true"></div>
-    <div>
-      <p class="sidebar-brand__title">Synko</p>
-      <p class="sidebar-brand__subtitle">AI Workspace</p>
+  <div class="sidebar-mobile-top">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand__mark" aria-hidden="true">
+        <i class="fa-solid fa-cubes-stacked"></i>
+      </div>
+      <div>
+        <p class="sidebar-brand__title">{{ 'common.appName' | t }}</p>
+        <p class="sidebar-brand__subtitle">AI Workspace</p>
+      </div>
     </div>
+
+    <button
+      class="sidebar-mobile-top__toggle"
+      type="button"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="isMenuOpen()"
+      aria-label="Toggle navigation menu"
+    >
+      <i class="fa-solid fa-bars" aria-hidden="true"></i>
+    </button>
   </div>
 
-  @if (user; as currentUser) {
-    <section class="sidebar-profile">
-      <p class="sidebar-profile__name">{{ currentUser.name }}</p>
-      <p class="sidebar-profile__email">{{ currentUser.email }}</p>
-      <span class="sidebar-profile__role">{{ currentUser.roles?.[0] || 'User' }}</span>
-    </section>
+  @if (isMobile() && isMenuOpen()) {
+    <button
+      class="sidebar-overlay"
+      type="button"
+      aria-label="Close navigation menu"
+      (click)="closeMenu()"
+    ></button>
   }
 
-  <nav class="sidebar-nav" aria-label="Primary navigation">
-    <button class="sidebar-nav__item sidebar-nav__item--active" type="button">
-      <span class="sidebar-nav__dot" aria-hidden="true"></span>
-      Overview
-    </button>
-    <button class="sidebar-nav__item" type="button">
-      <span class="sidebar-nav__dot" aria-hidden="true"></span>
-      Knowledge
-    </button>
-    <button class="sidebar-nav__item" type="button">
-      <span class="sidebar-nav__dot" aria-hidden="true"></span>
-      Collections
-    </button>
-    <button class="sidebar-nav__item" type="button">
-      <span class="sidebar-nav__dot" aria-hidden="true"></span>
-      Settings
-    </button>
-  </nav>
+  <div class="sidebar-panel" [class.sidebar-panel--open]="!isMobile() || isMenuOpen()">
+    @if (!isMobile()) {
+      <div class="sidebar-brand">
+        <div class="sidebar-brand__mark" aria-hidden="true">
+          <i class="fa-solid fa-cubes-stacked"></i>
+        </div>
+        <div>
+          <p class="sidebar-brand__title">{{ 'common.appName' | t }}</p>
+          <p class="sidebar-brand__subtitle">AI Workspace</p>
+        </div>
+      </div>
+    }
 
-  <button class="sidebar-signout" type="button" (click)="onSignOut()">Sign out</button>
+    <div class="sidebar-toolbar">
+      <app-theme-switcher></app-theme-switcher>
+      <app-language-switcher></app-language-switcher>
+
+      @if (isMobile()) {
+        <button class="sidebar-toolbar__close" type="button" (click)="closeMenu()" aria-label="Close menu">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      }
+    </div>
+
+    @if (user; as currentUser) {
+      <section class="sidebar-profile">
+        <p class="sidebar-profile__name">{{ currentUser.name }}</p>
+        <p class="sidebar-profile__email">{{ currentUser.email }}</p>
+        <span class="sidebar-profile__role">{{ currentUser.roles?.[0] || ('common.userFallback' | t) }}</span>
+      </section>
+    }
+
+    <nav class="sidebar-nav" aria-label="Primary navigation">
+      <a
+        class="sidebar-nav__item"
+        routerLink="/dashboard"
+        routerLinkActive="sidebar-nav__item--active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="closeMenu()"
+      >
+        <i class="fa-solid fa-chart-pie sidebar-nav__icon" aria-hidden="true"></i>
+        {{ 'nav.overview' | t }}
+      </a>
+      <a
+        class="sidebar-nav__item"
+        routerLink="/documents"
+        routerLinkActive="sidebar-nav__item--active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="closeMenu()"
+      >
+        <i class="fa-solid fa-file-lines sidebar-nav__icon" aria-hidden="true"></i>
+        {{ 'nav.documents' | t }}
+      </a>
+      <button class="sidebar-nav__item" type="button" disabled>
+        <i class="fa-solid fa-layer-group sidebar-nav__icon" aria-hidden="true"></i>
+        {{ 'nav.collections' | t }}
+      </button>
+      <button class="sidebar-nav__item" type="button" disabled>
+        <i class="fa-solid fa-gear sidebar-nav__icon" aria-hidden="true"></i>
+        {{ 'nav.settings' | t }}
+      </button>
+    </nav>
+
+    <button class="sidebar-signout" type="button" (click)="onSignOut()">
+      <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+      {{ 'common.signOut' | t }}
+    </button>
+  </div>
 </aside>
