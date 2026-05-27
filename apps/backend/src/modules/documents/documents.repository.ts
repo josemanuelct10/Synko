@@ -1,3 +1,4 @@
+import type { DocumentStatus } from "@prisma/client";
 import { prisma } from "../../infrastructure/database/prisma.client.js";
 
 export const documentRepository = {
@@ -52,6 +53,42 @@ export const documentRepository = {
             sizeBytes: input.sizeBytes,
             storagePath: input.storagePath,
             status: "uploaded"
+            }
+        });
+    },
+
+    updateStatus(input: { documentId: string, userId: string, status: DocumentStatus, errorMessage?: string | null, processedAt?: Date | null }) {
+        return prisma.document.update({
+        where: {
+            id: input.documentId,
+            userId: input.userId
+        },
+        data: {
+            status: input.status,
+            errorMessage: input.errorMessage,
+            processedAt: input.processedAt
+        }
+        });
+    },
+    
+    createChunks(input: { documentId: string, userId: string, chunks: Array<{ chunkIndex: number, content: string, pageNumber: number | null, tokenCount: number}>}){
+        return prisma.documentChunk.createMany({
+            data: input.chunks.map((chunk) => ({
+                documentId: input.documentId,
+                userId: input.userId,
+                chunkIndex: chunk.chunkIndex,
+                content: chunk.content,
+                pageNumber: chunk.pageNumber,
+                tokenCount: chunk.tokenCount
+            }))
+        });
+    },
+
+    deleteChunksByDocumentId(documentId: string, userId: string) {
+        return prisma.documentChunk.deleteMany({
+            where: {
+                documentId,
+                userId
             }
         });
     }
