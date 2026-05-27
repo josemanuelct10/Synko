@@ -1,13 +1,22 @@
 import type { ErrorRequestHandler } from "express";
-import { AppError } from "../errors/app-error.js";
-import { env } from "../../config/env.js";
+import { ZodError } from "zod";
 
-export const errorHandlerMiddleware: ErrorRequestHandler = (
-  error,
-  _req,
-  res,
-  _next
-) => {
+import { env } from "../../config/env.js";
+import { AppError } from "../errors/app-error.js";
+
+export const errorHandlerMiddleware: ErrorRequestHandler = ( error, _req, res, _next) => {
+  if (error instanceof ZodError) {
+    return res.status(400).json({
+      error: {
+        message: "Validation error",
+        issues: error.issues.map((issue) => ({
+          path: issue.path.join("."),
+          message: issue.message
+        }))
+      }
+    });
+  }
+
   if (error instanceof AppError) {
     return res.status(error.statusCode).json({
       error: {
@@ -20,10 +29,7 @@ export const errorHandlerMiddleware: ErrorRequestHandler = (
 
   return res.status(500).json({
     error: {
-      message:
-        env.NODE_ENV === "production"
-          ? "Internal server error"
-          : error.message
+      message: env.NODE_ENV === "production" ? "Internal server error" : error.message
     }
   });
 };

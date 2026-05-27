@@ -21,6 +21,6 @@ healthRouter.get("/db", async (_req, res, next) => {
       timestamp: new Date().toISOString()
     });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 });

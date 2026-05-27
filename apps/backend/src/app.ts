@@ -7,6 +7,7 @@ import { env } from "./config/env.js";
 import { healthRouter } from "./modules/health/health.routes.js";
 import { notFoundMiddleware } from "./shared/middlewares/not-found.middleware.js";
 import { errorHandlerMiddleware } from "./shared/middlewares/error-handler.middleware.js";
+import { authRouter } from "./modules/auth/auth.routes.js";
 
 export const createApp = () => {
   const app = express();
@@ -28,7 +29,8 @@ export const createApp = () => {
   }
 
   app.use("/health", healthRouter);
-
+  app.use("/auth", authRouter);
+  
   app.use(notFoundMiddleware);
   app.use(errorHandlerMiddleware);
 
