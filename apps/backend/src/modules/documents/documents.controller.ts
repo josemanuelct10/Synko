@@ -43,5 +43,15 @@ export const documentsController = {
         } catch (error) {
             return next(error);
         }
+    }) satisfies RequestHandler,
+
+    upload: (async (req, res, next) => {
+        try {
+            if (!req.user) return next(new AppError("Unauthenticated request", 401));
+            const result = await documentsService.upload(req.user.sub, req.file);
+            return res.status(201).json(result);
+        } catch (error) {
+            return next(error);
+        }
     }) satisfies RequestHandler
 }

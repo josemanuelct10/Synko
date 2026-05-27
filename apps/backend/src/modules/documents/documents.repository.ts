@@ -40,5 +40,19 @@ export const documentRepository = {
                 status: "deleted"
             }
         });
+    },
+
+    create(input: { userId: string; originalName: string; storedName: string; mimeType: string; sizeBytes: bigint; storagePath: string;}) {
+        return prisma.document.create({
+            data: {
+            userId: input.userId,
+            originalName: input.originalName,
+            storedName: input.storedName,
+            mimeType: input.mimeType,
+            sizeBytes: input.sizeBytes,
+            storagePath: input.storagePath,
+            status: "uploaded"
+            }
+        });
     }
 };

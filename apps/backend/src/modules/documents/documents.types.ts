@@ -23,3 +23,8 @@ export type DocumentDetailResponse = {
 export type DeleteDocumentResponse = {
   message: string;
 };
+
+export type UploadDocumentResponse = {
+  message: string;
+  document: DocumentResponse;
+};

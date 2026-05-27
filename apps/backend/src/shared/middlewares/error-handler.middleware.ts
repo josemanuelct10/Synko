@@ -1,10 +1,12 @@
 import type { ErrorRequestHandler } from "express";
+import multer from "multer";
 import { ZodError } from "zod";
 
 import { env } from "../../config/env.js";
 import { AppError } from "../errors/app-error.js";
 
-export const errorHandlerMiddleware: ErrorRequestHandler = ( error, _req, res, _next) => {
+export const errorHandlerMiddleware: ErrorRequestHandler = (error, _req, res, _next) => {
+
   if (error instanceof ZodError) {
     return res.status(400).json({
       error: {
@@ -13,6 +15,22 @@ export const errorHandlerMiddleware: ErrorRequestHandler = ( error, _req, res, _
           path: issue.path.join("."),
           message: issue.message
         }))
+      }
+    });
+  }
+
+  if (error instanceof multer.MulterError) {
+    return res.status(400).json({
+      error: {
+        message: error.message
+      }
+    });
+  }
+
+  if (error instanceof Error && error.message === "Only PDF files are allowed") {
+    return res.status(400).json({
+      error: {
+        message: error.message
       }
     });
   }
@@ -29,7 +47,8 @@ export const errorHandlerMiddleware: ErrorRequestHandler = ( error, _req, res, _
 
   return res.status(500).json({
     error: {
-      message: env.NODE_ENV === "production" ? "Internal server error" : error.message
+      message:
+        env.NODE_ENV === "production" ? "Internal server error" : error.message
     }
   });
 };

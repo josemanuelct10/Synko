@@ -1,6 +1,9 @@
 import { AppError } from "../../shared/errors/app-error.js";
 import { documentRepository } from "./documents.repository.js";
-import type { DeleteDocumentResponse, DocumentDetailResponse, DocumentResponse, DocumentsListResponse } from "./documents.types.js";
+import type { DeleteDocumentResponse, DocumentDetailResponse, DocumentResponse, DocumentsListResponse, UploadDocumentResponse } from "./documents.types.js";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { createStoredFileName, ensureUploadsDirectory } from "../../infrastructure/storage/local-storage.js";
 
 const mapDocumentToResponse = (document: {
   id: string;
@@ -31,6 +34,32 @@ const mapDocumentToResponse = (document: {
 };
 
 export const documentsService = {
+    async upload(userId: string, file: Express.Multer.File | undefined): Promise<UploadDocumentResponse>{
+        if (!file) throw new AppError("Document file is required", 400);
+
+        if (file.mimetype !== "application/pdf") throw new AppError("Only PDF files are allowed", 400);
+
+        const uploadsDirectory = await ensureUploadsDirectory();
+        const storedName = createStoredFileName(file.originalname);
+        const absoluteStoragePath = path.join(uploadsDirectory, storedName);
+
+        await fs.writeFile(absoluteStoragePath, file.buffer);
+
+        const document = await documentRepository.create({
+            userId,
+            originalName: file.originalname,
+            storedName,
+            mimeType: file.mimetype,
+            sizeBytes: BigInt(file.size),
+            storagePath: absoluteStoragePath
+        });
+
+        return {
+            message: "Document uploaded successfully",
+            document: mapDocumentToResponse(document)
+        };
+    },
+
     async list(userId: string): Promise<DocumentsListResponse> {
         const documents = await documentRepository.findManyByUserId(userId);
 

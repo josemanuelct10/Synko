@@ -32,6 +32,9 @@ const envSchema = z.object({
 
   DATABASE_URL: z.string().url(),
 
+  UPLOADS_DIR: z.string().default("uploads"),
+  MAX_UPLOAD_SIZE_MB: z.coerce.number().default(10),
+  
   QDRANT_URL: z.string().url().default("http://localhost:6333"),
   QDRANT_COLLECTION: z.string().default("synko_documents"),
 
@@ -49,5 +52,7 @@ if (!parsedEnv.success) {
   console.error(parsedEnv.error.flatten().fieldErrors);
   process.exit(1);
 }
+
+
 
 export const env = parsedEnv.data;
