@@ -91,5 +91,29 @@ export const documentRepository = {
                 userId
             }
         });
+    },
+
+    findChunksByDocumentId(documentId: string, userId: string) {
+        return prisma.documentChunk.findMany({
+            where: {
+                documentId,
+                userId
+            },
+            orderBy: {
+                chunkIndex: "asc"
+            }
+        });
+    },
+
+    updateChunkQdrantPointId(input: { chunkId: string, userId: string, qdrantPointId: string }) {
+        return prisma.documentChunk.updateMany({
+            where: {
+                id: input.chunkId,
+                userId: input.userId
+            },
+            data: {
+                qdrantPointId: input.qdrantPointId
+            }
+        });
     }
 };

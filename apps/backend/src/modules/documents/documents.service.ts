@@ -2,15 +2,12 @@ import fs from "node:fs/promises";
 import path from "node:path";
 
 import { extractTextFromPdf } from "../../infrastructure/pdf/pdf-text-extractor.js";
-import {
-  createStoredFileName,
-  ensureUploadsDirectory
-} from "../../infrastructure/storage/local-storage.js";
+import { createStoredFileName, ensureUploadsDirectory } from "../../infrastructure/storage/local-storage.js";
 import { AppError } from "../../shared/errors/app-error.js";
 import { splitTextIntoChunks } from "./documents.chunking.js";
 import { documentRepository } from "./documents.repository.js";
 import type { DeleteDocumentResponse, DocumentDetailResponse, DocumentResponse, DocumentsListResponse, UploadDocumentResponse } from "./documents.types.js";
-
+import { indexDocumentChunksInQdrant } from "./documents.vector-indexing.js";
 const mapDocumentToResponse = (document: {
     id: string;
     originalName: string;
@@ -93,6 +90,12 @@ export const documentsService = {
             documentId: createdDocument.id,
             userId,
             chunks
+        });
+
+        await indexDocumentChunksInQdrant({
+            userId,
+            documentId: createdDocument.id,
+            source: createdDocument.originalName
         });
 
         const processedDocument = await documentRepository.updateStatus({
