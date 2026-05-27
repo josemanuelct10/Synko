@@ -21,3 +21,7 @@ export type JwtPayload = {
     email: string,
     roles: string[]
 }
+
+export type MeResponse = {
+    user: AuthUserResponse
+}

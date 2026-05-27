@@ -46,5 +46,18 @@ export const authRepository = {
         })
     },
 
+    findUserWithRolesById(id: string) {
+        return prisma.user.findUnique({
+            where: { id },
+            include: {
+                roles: {
+                    include: {
+                        role: true
+                    }
+                }
+            }
+        });
+    }
+
 
 }

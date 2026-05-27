@@ -5,7 +5,7 @@ import { env } from "../../config/env.js";
 import { AppError } from "../../shared/errors/app-error.js";
 import { authRepository } from "./auth.repository.js";
 import type { LoginInput, RegisterInput } from "./auth.schemas.js";
-import type { JwtPayload, LoginReseponse, RegisterResponse } from "./auth.types.js";
+import type { JwtPayload, LoginReseponse, MeResponse, RegisterResponse } from "./auth.types.js";
 
 
 export const authService = {
@@ -58,6 +58,25 @@ export const authService = {
         return {
             access_token: accessToken,
             token_type: "Bearer",
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                roles
+            }
+        };
+    },
+
+    async me(userId: string): Promise<MeResponse> {
+        const user = await authRepository.findUserWithRolesById(userId);
+
+        if (!user) throw new AppError("User not found", 404);
+
+        if (user.status != "active") throw new AppError("User account is not active", 403);
+
+        const roles = user.roles.map((userRole) => userRole.role.name);
+
+        return {
             user: {
                 id: user.id,
                 name: user.name,
