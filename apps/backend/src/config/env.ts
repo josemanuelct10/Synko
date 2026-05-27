@@ -25,13 +25,16 @@ const envSchema = z.object({
   POSTGRES_USER: z.string().default("synko_user"),
   POSTGRES_PASSWORD: z.string().default("synko_password"),
 
+  DATABASE_URL: z.string().url(),
+
   QDRANT_URL: z.string().url().default("http://localhost:6333"),
   QDRANT_COLLECTION: z.string().default("synko_documents"),
 
   AI_PROVIDER: z.string().default("placeholder"),
   AI_API_KEY: z.string().default("change_me"),
   EMBEDDING_MODEL: z.string().default("placeholder"),
-  CHAT_MODEL: z.string().default("placeholder")
+  CHAT_MODEL: z.string().default("placeholder"),
+
 });
 
 const parsedEnv = envSchema.safeParse(process.env);
